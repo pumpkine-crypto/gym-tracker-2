@@ -101,20 +101,27 @@ const GymTracker = () => {
   const hasRoutine = Object.keys(routine).length > 0;
 
   return (
-    <div style={{ maxWidth: '500px', margin: '0 auto', padding: '1rem', fontFamily: 'sans-serif' }}>
+    <div style={{ width: '100%', maxWidth: '500px' }}>
       {/* Header with menu button */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <h1 style={{ margin: 0, fontSize: '24px', fontWeight: 600 }}>
-          {hasRoutine ? currentDay : 'Gym Tracker'}
-        </h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', paddingBottom: '1.5rem', borderBottom: '1px solid var(--border)' }}>
+        <div>
+          <h1 style={{ margin: 0, fontSize: '32px', fontWeight: 700, color: 'var(--text-primary)' }}>
+            {hasRoutine ? currentDay : 'Gym Tracker'}
+          </h1>
+          <p style={{ margin: '0.5rem 0 0 0', fontSize: '13px', color: 'var(--text-muted)' }}>
+            {hasRoutine && 'Crush your workout'}
+          </p>
+        </div>
         <button
           onClick={() => setShowPassword(true)}
           style={{
             background: 'none',
             border: 'none',
-            fontSize: '24px',
+            fontSize: '32px',
             cursor: 'pointer',
-            padding: '4px'
+            padding: '8px',
+            transition: 'transform 0.2s',
+            hover: { transform: 'scale(1.1)' }
           }}
         >
           🗿
@@ -123,23 +130,26 @@ const GymTracker = () => {
 
       {/* Main content */}
       {!hasRoutine ? (
-        <div style={{ textAlign: 'center', color: '#666' }}>
+        <div style={{ textAlign: 'center' }}>
           {!showInput ? (
-            <div>
-              <p style={{ marginBottom: '1rem', fontSize: '14px' }}>
-                Paste your gym routine to get started. Include day names as headers.
+            <div style={{ padding: '2rem 0' }}>
+              <div style={{ fontSize: '48px', marginBottom: '1.5rem', opacity: 0.3 }}>💪</div>
+              <p style={{ marginBottom: '1.5rem', fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                Paste your gym routine to get started.<br />Include day names as headers.
               </p>
               <button
                 onClick={() => setShowInput(true)}
                 style={{
-                  padding: '10px 20px',
-                  backgroundColor: '#007AFF',
+                  padding: '12px 28px',
+                  backgroundColor: 'var(--accent)',
                   color: 'white',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '10px',
                   cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: 500
+                  fontSize: '15px',
+                  fontWeight: 600,
+                  transition: 'all 0.2s',
+                  boxShadow: '0 4px 12px rgba(0, 122, 255, 0.3)'
                 }}
               >
                 Add Routine
@@ -153,28 +163,32 @@ const GymTracker = () => {
                 placeholder="Monday&#10;Bench Press&#10;Squats&#10;Rows&#10;&#10;Tuesday&#10;Deadlifts&#10;Pull-ups"
                 style={{
                   width: '100%',
-                  height: '200px',
-                  padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '6px',
+                  height: '220px',
+                  padding: '14px',
+                  border: '1px solid var(--border-light)',
+                  borderRadius: '10px',
                   fontSize: '14px',
                   fontFamily: 'monospace',
-                  boxSizing: 'border-box',
-                  marginBottom: '10px'
+                  backgroundColor: 'var(--bg-tertiary)',
+                  color: 'var(--text-primary)',
+                  marginBottom: '12px',
+                  resize: 'none',
+                  transition: 'border-color 0.2s'
                 }}
               />
-              <div style={{ display: 'flex', gap: '8px' }}>
+              <div style={{ display: 'flex', gap: '10px' }}>
                 <button
                   onClick={handleSetRoutine}
                   style={{
                     flex: 1,
-                    padding: '10px',
-                    backgroundColor: '#007AFF',
+                    padding: '12px',
+                    backgroundColor: 'var(--accent)',
                     color: 'white',
                     border: 'none',
-                    borderRadius: '6px',
+                    borderRadius: '10px',
                     cursor: 'pointer',
-                    fontWeight: 500
+                    fontWeight: 600,
+                    transition: 'all 0.2s'
                   }}
                 >
                   Save Routine
@@ -183,12 +197,14 @@ const GymTracker = () => {
                   onClick={() => { setShowInput(false); setTextInput(''); }}
                   style={{
                     flex: 1,
-                    padding: '10px',
-                    backgroundColor: '#f0f0f0',
-                    border: '1px solid #ddd',
-                    borderRadius: '6px',
+                    padding: '12px',
+                    backgroundColor: 'var(--bg-tertiary)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '10px',
                     cursor: 'pointer',
-                    fontWeight: 500
+                    fontWeight: 600,
+                    color: 'var(--text-primary)',
+                    transition: 'all 0.2s'
                   }}
                 >
                   Cancel
@@ -200,7 +216,7 @@ const GymTracker = () => {
       ) : (
         <div>
           {todayExercises.length > 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {todayExercises.map((exercise, idx) => {
                 const key = `${currentDay}-${exercise}`;
                 const isChecked = completed[key] || false;
@@ -210,31 +226,37 @@ const GymTracker = () => {
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      padding: '12px',
-                      border: '1px solid #ddd',
-                      borderRadius: '6px',
+                      padding: '14px 16px',
+                      border: '1px solid var(--border)',
+                      borderRadius: '10px',
                       cursor: isChecked ? 'default' : 'pointer',
-                      backgroundColor: isChecked ? '#f0f8ff' : 'white',
-                      opacity: isChecked ? 0.8 : 1,
-                      transition: 'background-color 0.2s'
+                      backgroundColor: isChecked ? 'rgba(52, 199, 89, 0.1)' : 'var(--bg-card)',
+                      opacity: isChecked ? 0.7 : 1,
+                      transition: 'all 0.2s',
+                      borderColor: isChecked ? 'rgba(52, 199, 89, 0.3)' : 'var(--border)'
                     }}
                   >
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      onChange={() => handleCheck(exercise)}
-                      disabled={isChecked}
+                    <div
                       style={{
-                        width: '18px',
-                        height: '18px',
-                        marginRight: '12px',
-                        cursor: isChecked ? 'default' : 'pointer'
+                        width: '20px',
+                        height: '20px',
+                        borderRadius: '6px',
+                        border: `2px solid ${isChecked ? 'var(--success)' : 'var(--border)'}`,
+                        backgroundColor: isChecked ? 'var(--success)' : 'transparent',
+                        marginRight: '14px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.2s'
                       }}
-                    />
+                    >
+                      {isChecked && <span style={{ color: '#000', fontSize: '12px', fontWeight: 700 }}>✓</span>}
+                    </div>
                     <span style={{
                       fontSize: '15px',
-                      color: isChecked ? '#888' : '#333',
-                      textDecoration: isChecked ? 'line-through' : 'none'
+                      color: isChecked ? 'var(--text-muted)' : 'var(--text-primary)',
+                      textDecoration: isChecked ? 'line-through' : 'none',
+                      fontWeight: isChecked ? 500 : 400
                     }}>
                       {exercise}
                     </span>
@@ -243,17 +265,21 @@ const GymTracker = () => {
               })}
             </div>
           ) : (
-            <div style={{ textAlign: 'center', color: '#999', padding: '2rem 0' }}>
-              <p style={{ fontSize: '14px' }}>No exercises for {currentDay}</p>
+            <div style={{ textAlign: 'center', padding: '3rem 0' }}>
+              <div style={{ fontSize: '48px', marginBottom: '1rem', opacity: 0.3 }}>😴</div>
+              <p style={{ fontSize: '15px', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>No exercises for {currentDay}</p>
               <button
                 onClick={() => setShowInput(true)}
                 style={{
-                  padding: '8px 16px',
-                  backgroundColor: '#f0f0f0',
-                  border: '1px solid #ddd',
-                  borderRadius: '6px',
+                  padding: '10px 20px',
+                  backgroundColor: 'var(--bg-tertiary)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '10px',
                   cursor: 'pointer',
-                  fontSize: '14px'
+                  fontSize: '14px',
+                  color: 'var(--text-primary)',
+                  fontWeight: 600,
+                  transition: 'all 0.2s'
                 }}
               >
                 Edit Routine
@@ -271,21 +297,24 @@ const GymTracker = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          backdropFilter: 'blur(4px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           zIndex: 1000
         }}>
           <div style={{
-            backgroundColor: 'white',
-            borderRadius: '12px',
+            backgroundColor: 'var(--bg-secondary)',
+            borderRadius: '16px',
             padding: '2rem',
-            minWidth: '300px',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+            minWidth: '320px',
+            maxWidth: '400px',
+            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
+            border: '1px solid var(--border)'
           }}>
-            <h2 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '18px' }}>Reset App</h2>
-            <p style={{ color: '#666', fontSize: '14px', marginBottom: '1rem' }}>
+            <h2 style={{ marginTop: 0, marginBottom: '0.5rem', fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)' }}>Reset App</h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '13px', marginBottom: '1.5rem' }}>
               Enter password to reset everything and start fresh.
             </p>
             <input
@@ -298,31 +327,34 @@ const GymTracker = () => {
               placeholder="Password"
               style={{
                 width: '100%',
-                padding: '10px',
-                border: '1px solid #ddd',
-                borderRadius: '6px',
+                padding: '12px 14px',
+                border: `1px solid ${passwordError ? 'var(--danger)' : 'var(--border-light)'}`,
+                borderRadius: '10px',
                 fontSize: '14px',
-                boxSizing: 'border-box',
-                marginBottom: passwordError ? '6px' : '1rem'
+                backgroundColor: 'var(--bg-tertiary)',
+                color: 'var(--text-primary)',
+                marginBottom: passwordError ? '8px' : '1.5rem',
+                transition: 'border-color 0.2s'
               }}
             />
             {passwordError && (
-              <p style={{ color: '#FF3B30', fontSize: '12px', marginBottom: '1rem', margin: 0 }}>
-                {passwordError}
+              <p style={{ color: 'var(--danger)', fontSize: '12px', marginBottom: '1rem', margin: '0 0 1rem 0' }}>
+                ❌ {passwordError}
               </p>
             )}
-            <div style={{ display: 'flex', gap: '8px' }}>
+            <div style={{ display: 'flex', gap: '10px' }}>
               <button
                 onClick={handlePasswordReset}
                 style={{
                   flex: 1,
-                  padding: '10px',
-                  backgroundColor: '#FF3B30',
+                  padding: '12px',
+                  backgroundColor: 'var(--danger)',
                   color: 'white',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '10px',
                   cursor: 'pointer',
-                  fontWeight: 500
+                  fontWeight: 600,
+                  transition: 'all 0.2s'
                 }}
               >
                 Reset
@@ -335,12 +367,14 @@ const GymTracker = () => {
                 }}
                 style={{
                   flex: 1,
-                  padding: '10px',
-                  backgroundColor: '#f0f0f0',
-                  border: '1px solid #ddd',
-                  borderRadius: '6px',
+                  padding: '12px',
+                  backgroundColor: 'var(--bg-tertiary)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '10px',
                   cursor: 'pointer',
-                  fontWeight: 500
+                  fontWeight: 600,
+                  color: 'var(--text-primary)',
+                  transition: 'all 0.2s'
                 }}
               >
                 Cancel
