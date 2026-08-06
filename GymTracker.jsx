@@ -100,6 +100,10 @@ const GymTracker = () => {
   const todayExercises = routine[currentDay] || [];
   const hasRoutine = Object.keys(routine).length > 0;
 
+  // Get actual today's day name
+  const actualToday = dayNames[new Date().getDay()];
+  const isActualToday = currentDay === actualToday;
+
   const handleDayClick = (day) => {
     setCurrentDay(day);
   };
@@ -225,22 +229,25 @@ const GymTracker = () => {
               {todayExercises.map((exercise, idx) => {
                 const key = `${currentDay}-${exercise}`;
                 const isChecked = completed[key] || false;
+                const canCheck = isActualToday && !isChecked;
                 return (
-                  <label
+                  <div
                     key={idx}
+                    onClick={() => canCheck && handleCheck(exercise)}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       padding: '16px 16px',
                       border: '1px solid var(--border)',
                       borderRadius: '10px',
-                      cursor: isChecked ? 'default' : 'pointer',
+                      cursor: canCheck ? 'pointer' : 'default',
                       backgroundColor: isChecked ? 'rgba(52, 199, 89, 0.08)' : 'var(--bg-card)',
-                      opacity: isChecked ? 0.6 : 1,
+                      opacity: !isActualToday ? 0.5 : isChecked ? 0.6 : 1,
                       transition: 'all 0.2s',
                       borderColor: isChecked ? 'rgba(52, 199, 89, 0.2)' : 'var(--border)',
                       userSelect: 'none',
-                      WebkitUserSelect: 'none'
+                      WebkitUserSelect: 'none',
+                      pointerEvents: !isActualToday ? 'none' : 'auto'
                     }}
                   >
                     <div
@@ -272,7 +279,7 @@ const GymTracker = () => {
                     }}>
                       {exercise}
                     </span>
-                  </label>
+                  </div>
                 );
               })}
             </div>
