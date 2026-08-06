@@ -225,7 +225,27 @@ const GymTracker = () => {
       ) : (
         <div>
           {todayExercises.length > 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div>
+              {!isActualToday && (
+                <div style={{
+                  backgroundColor: 'rgba(255, 149, 0, 0.1)',
+                  border: '1px solid rgba(255, 149, 0, 0.3)',
+                  borderRadius: '10px',
+                  padding: '14px 16px',
+                  marginBottom: '1.5rem',
+                  textAlign: 'center'
+                }}>
+                  <p style={{
+                    margin: 0,
+                    fontSize: '14px',
+                    color: 'var(--warning)',
+                    fontWeight: 500
+                  }}>
+                    📅 These aren't your exercises for today. Come back on {currentDay}!
+                  </p>
+                </div>
+              )}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {todayExercises.map((exercise, idx) => {
                 const key = `${currentDay}-${exercise}`;
                 const isChecked = completed[key] || false;
@@ -282,6 +302,7 @@ const GymTracker = () => {
                   </div>
                 );
               })}
+              </div>
             </div>
           ) : (
             <div style={{ textAlign: 'center', padding: '3rem 0' }}>
