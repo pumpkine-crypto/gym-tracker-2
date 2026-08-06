@@ -100,8 +100,13 @@ const GymTracker = () => {
   const todayExercises = routine[currentDay] || [];
   const hasRoutine = Object.keys(routine).length > 0;
 
+  const handleDayClick = (day) => {
+    setCurrentDay(day);
+  };
+
   return (
-    <div style={{ width: '100%', maxWidth: '500px' }}>
+    <div style={{ width: '100%', maxWidth: '500px', display: 'flex', flexDirection: 'column', minHeight: '100vh', padding: '1.5rem 1rem' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       {/* Header with menu button */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', paddingBottom: '1.5rem', borderBottom: '1px solid var(--border)' }}>
         <div>
@@ -226,22 +231,25 @@ const GymTracker = () => {
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      padding: '14px 16px',
+                      padding: '16px 16px',
                       border: '1px solid var(--border)',
                       borderRadius: '10px',
                       cursor: isChecked ? 'default' : 'pointer',
-                      backgroundColor: isChecked ? 'rgba(52, 199, 89, 0.1)' : 'var(--bg-card)',
-                      opacity: isChecked ? 0.7 : 1,
+                      backgroundColor: isChecked ? 'rgba(52, 199, 89, 0.08)' : 'var(--bg-card)',
+                      opacity: isChecked ? 0.6 : 1,
                       transition: 'all 0.2s',
-                      borderColor: isChecked ? 'rgba(52, 199, 89, 0.3)' : 'var(--border)'
+                      borderColor: isChecked ? 'rgba(52, 199, 89, 0.2)' : 'var(--border)',
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none'
                     }}
                   >
                     <div
                       style={{
-                        width: '20px',
-                        height: '20px',
+                        width: '24px',
+                        height: '24px',
+                        minWidth: '24px',
                         borderRadius: '6px',
-                        border: `2px solid ${isChecked ? 'var(--success)' : 'var(--border)'}`,
+                        border: `2.5px solid ${isChecked ? 'var(--success)' : 'var(--border-light)'}`,
                         backgroundColor: isChecked ? 'var(--success)' : 'transparent',
                         marginRight: '14px',
                         display: 'flex',
@@ -250,13 +258,17 @@ const GymTracker = () => {
                         transition: 'all 0.2s'
                       }}
                     >
-                      {isChecked && <span style={{ color: '#000', fontSize: '12px', fontWeight: 700 }}>✓</span>}
+                      {isChecked && <span style={{ color: '#000', fontSize: '14px', fontWeight: 700, lineHeight: 1 }}>✓</span>}
                     </div>
                     <span style={{
                       fontSize: '15px',
                       color: isChecked ? 'var(--text-muted)' : 'var(--text-primary)',
                       textDecoration: isChecked ? 'line-through' : 'none',
-                      fontWeight: isChecked ? 500 : 400
+                      textDecorationThickness: isChecked ? '2px' : '0px',
+                      textDecorationColor: isChecked ? 'var(--text-muted)' : 'transparent',
+                      textUnderlineOffset: isChecked ? '3px' : '0px',
+                      fontWeight: isChecked ? 400 : 500,
+                      flex: 1
                     }}>
                       {exercise}
                     </span>
@@ -381,6 +393,47 @@ const GymTracker = () => {
               </button>
             </div>
           </div>
+        </div>
+      )}
+      </div>
+
+      {/* Day selector at bottom */}
+      {hasRoutine && (
+        <div style={{
+          marginTop: 'auto',
+          paddingTop: '2rem',
+          borderTop: '1px solid var(--border)',
+          display: 'flex',
+          gap: '6px',
+          justifyContent: 'center',
+          flexWrap: 'wrap'
+        }}>
+          {dayNames.map((day) => {
+            const hasExercises = routine[day] && routine[day].length > 0;
+            const isCurrentDay = day === currentDay;
+            return (
+              <button
+                key={day}
+                onClick={() => handleDayClick(day)}
+                style={{
+                  padding: '10px 12px',
+                  backgroundColor: isCurrentDay ? 'var(--accent)' : hasExercises ? 'var(--bg-tertiary)' : 'transparent',
+                  color: isCurrentDay ? '#fff' : hasExercises ? 'var(--text-primary)' : 'var(--text-muted)',
+                  border: `1px solid ${isCurrentDay ? 'var(--accent)' : hasExercises ? 'var(--border-light)' : 'var(--border)'}`,
+                  borderRadius: '8px',
+                  cursor: hasExercises ? 'pointer' : 'default',
+                  fontWeight: isCurrentDay ? 600 : 500,
+                  fontSize: '12px',
+                  transition: 'all 0.2s',
+                  opacity: hasExercises ? 1 : 0.5,
+                  boxShadow: isCurrentDay ? '0 0 0 3px rgba(0, 122, 255, 0.2)' : 'none'
+                }}
+                disabled={!hasExercises}
+              >
+                {day.slice(0, 3)}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
