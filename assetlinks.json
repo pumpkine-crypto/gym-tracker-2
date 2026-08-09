@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "app.vercel.gym_tracker_2_one.twa",
+        "sha256_cert_fingerprints": ["91:A9:61:B7:8C:6D:94:BC:A9:11:6E:B3:D9:F8:63:A1:D5:2B:74:FA:8E:F7:C0:2E:3D:D5:B7:6E:49:EE:08:D9"]
+      }
+    }]
